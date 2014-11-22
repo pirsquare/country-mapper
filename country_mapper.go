@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	defaultFile = "https://raw.githubusercontent.com/pirsquare/country-mapper/master/files/country-info.csv"
+	defaultFile = "https://raw.githubusercontent.com/pirsquare/country-mapper/master/files/country_info.csv"
 )
 
 type CountryInfoClient struct {
