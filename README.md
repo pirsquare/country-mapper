@@ -7,7 +7,7 @@
 
 
 ## Examples
-<pre>
+```go
 package main
 
 import (
@@ -36,7 +36,7 @@ func main() {
 	fmt.Println(data.Region)         // Will Print: Asia
 	fmt.Println(data.Subregion)      // Will Print: Eastern Asia
 
-	// you can try different variations of name, but be careful though, 
+	// you can try different variations of name, but be careful though,
 	// only commonly used names is supported
 	data = countryClient.MapByName("south korea")
 	fmt.Println(data.Name) // Will Print: South Korea
@@ -135,7 +135,7 @@ func main() {
 	}
 }
 
-</pre>
+```
 
 
 ## FAQ
