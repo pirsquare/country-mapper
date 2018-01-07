@@ -92,6 +92,7 @@ type CountryInfo struct {
 	AlternateNames []string
 	Alpha2         string
 	Alpha3         string
+	Capital        string
 	Currency       []string
 	CallingCode    []string
 	Region         string
@@ -176,6 +177,7 @@ func Load(specifiedURL ...string) (*CountryInfoClient, error) {
 			AlternateNames: alternateNames,
 			Alpha2:         row[2],
 			Alpha3:         row[4],
+			Capital:        row[7],
 			Currency:       strings.Split(row[5], ","),
 			CallingCode:    strings.Split(row[6], ","),
 			Region:         row[10],

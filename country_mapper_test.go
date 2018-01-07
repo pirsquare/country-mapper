@@ -1,8 +1,9 @@
 package country_mapper
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var mockClient *CountryInfoClient
@@ -25,6 +26,7 @@ func Test_Client_MapByName(t *testing.T) {
 	assert.Equal(t, ret.Name, "South Korea")
 	assert.Equal(t, ret.Alpha2, "KR")
 	assert.Equal(t, ret.Alpha3, "KOR")
+	assert.Equal(t, ret.Capital, "Seoul")
 	assert.Equal(t, ret.Currency, []string{"KRW"})
 	assert.Equal(t, ret.CallingCode, []string{"82"})
 	assert.Equal(t, ret.Region, "Asia")
