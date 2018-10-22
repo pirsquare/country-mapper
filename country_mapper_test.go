@@ -12,7 +12,13 @@ var mockClient *CountryInfoClient
 // Setup Tests
 //===========================================
 func Test_Init(t *testing.T) {
-	client, err := Load()
+	client, err := LoadByUrl()
+	assert.Nil(t, err)
+	mockClient = client
+}
+
+func TestLoadByFile(t *testing.T) {
+	client, err := LoadByFile("./files/country_info.csv")
 	assert.Nil(t, err)
 	mockClient = client
 }

@@ -1,7 +1,10 @@
 package country_mapper
 
 import (
+	"bytes"
 	"encoding/csv"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -123,14 +126,8 @@ func (c *CountryInfo) CallingCodeLower() []string {
 	return updated
 }
 
-func readCSVFromURL(fileURL string) ([][]string, error) {
-	resp, err := http.Get(fileURL)
-	if err != nil {
-		return nil, err
-	}
-
-	defer resp.Body.Close()
-	reader := csv.NewReader(resp.Body)
+func readCSV(body io.Reader) ([][]string, error) {
+	reader := csv.NewReader(body)
 	reader.Comma = ';'
 	data, err := reader.ReadAll()
 	if err != nil {
@@ -140,20 +137,39 @@ func readCSVFromURL(fileURL string) ([][]string, error) {
 	return data, nil
 }
 
-// Pass in an optional url if you would like to use your own downloadable csv file for country's data.
-// This is useful if you prefer to host the data file yourself or if you have modified some of the fields
-// for your specific use case.
-func Load(specifiedURL ...string) (*CountryInfoClient, error) {
+func LoadByUrl(url ...string) (*CountryInfoClient, error) {
 	var fileURL string
 
 	// use user specified url for csv file if provided, else use default file URL
-	if len(specifiedURL) > 0 {
-		fileURL = specifiedURL[0]
+	if len(url) > 0 {
+		fileURL = url[0]
 	} else {
 		fileURL = defaultFile
 	}
 
-	data, err := readCSVFromURL(fileURL)
+	resp, err := http.Get(fileURL)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return load(resp.Body)
+}
+
+func LoadByFile(file string) (*CountryInfoClient, error) {
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+
+	return load(bytes.NewBuffer(data))
+}
+
+// Pass in an optional url if you would like to use your own downloadable csv file for country's data.
+// This is useful if you prefer to host the data file yourself or if you have modified some of the fields
+// for your specific use case.
+func load(body io.Reader) (*CountryInfoClient, error) {
+	data, err := readCSV(body)
 	if err != nil {
 		return nil, err
 	}
